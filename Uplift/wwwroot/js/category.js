@@ -9,32 +9,31 @@ function loadDataTable() {
         "ajax": {
             "url": "/admin/category/GetAll",
             "type": "GET",
-            "datatype":"json"
+            "datatype": "json"
         },
         "columns": [
             { "data": "name", "width": "50%" },
-            { "data": "displayOrder", "width": "50%" },
+            { "data": "displayOrder", "width": "20%" },
             {
                 "data": "id",
                 "render": function (data) {
-                    return `<div class="text-end">
-                        <a href = "/Admin/category/Upsert/${data}" class='btn btn-success text-white' style='cursor:pointer; width:100px;'>
-                        </div> 
-                        <i class = 'far fa-edit'> </i> Edit
-                        </a>
-                        &nbps;
-                        <a onClick = ("/Admin/category/Delete/${data}") class='btn btn-danger text-white' style='cursor:pointer; width:100px;'>
-                        </div> 
-                        <i class = 'far fa-trash-alt'> </i> Delete
-                        </a>
-                          `;
+                    return `<div class="text-center">
+                                <a href="/Admin/category/Upsert/${data}" class='btn btn-success text-white' style='cursor:pointer; width:100px;'>
+                                    <i class='far fa-edit'></i> Edit
+                                </a>
+                                &nbsp;
+                                <a onclick=Delete("/Admin/category/Delete/${data}") class='btn btn-danger text-white' style='cursor:pointer; width:100px;'>
+                                    <i class='far fa-trash-alt'></i> Delete
+                                </a>
+                            </div>
+                            `;
                 }, "width": "30%"
             }
 
         ],
         "language": {
-            "emptyTable":"No Records Found."
+            "emptyTable": "No Records Found."
         },
-        "width":"100%"
+        "width": "100%"
     });
 }
