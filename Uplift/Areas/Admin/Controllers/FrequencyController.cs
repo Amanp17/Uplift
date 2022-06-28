@@ -5,10 +5,10 @@ using Uplift.Models;
 namespace Uplift.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CategoryController : Controller
+    public class FrequencyController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public CategoryController(IUnitOfWork unitOfWork)
+        public FrequencyController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -17,59 +17,59 @@ namespace Uplift.Areas.Admin.Controllers
         {
             return View();
         }
+
         public IActionResult Upsert(int? id)
         {
-            Category category = new Category();
-            if (id == null)
+            Frequency frequency = new Frequency();
+            if(id == null)
             {
-                return View(category);
+                return View(frequency);
             }
-            category = _unitOfWork.Category.Get(id.GetValueOrDefault());
-            if (category == null)
+            frequency = _unitOfWork.Frequency.Get(id.GetValueOrDefault());
+            if(frequency == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(frequency);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Upsert(Category category)
+        public IActionResult Upsert(Frequency frequency)
         {
             if (ModelState.IsValid)
             {
-                if (category.Id == 0)
+                if (frequency.Id == 0)
                 {
-                    _unitOfWork.Category.Add(category);
+                    _unitOfWork.Frequency.Add(frequency);
                 }
                 else
                 {
-                    _unitOfWork.Category.Update(category);
+                    _unitOfWork.Frequency.Update(frequency);
                 }
                 _unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(frequency);
         }
+
         #region API CALLS
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Json(new { data = _unitOfWork.Category.GetAll() });
+            return Json(new { data = _unitOfWork.Frequency.GetAll() });
         }
-
-        
 
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var objFromDb = _unitOfWork.Category.Get(id);
-            if (objFromDb == null)
+            var objFromdb = _unitOfWork.Frequency.Get(id);
+            if(objFromdb == null)
             {
-                return Json(new { success = false, message = "Error While Deleting" });
+                return Json(new { success = false, message = "Error While Deleting!" });
             }
-            _unitOfWork.Category.Remove(objFromDb);
+            _unitOfWork.Frequency.Remove(objFromdb);
             _unitOfWork.Save();
             return Json(new { success = true, message = "Deleted Successfully" });
         }
